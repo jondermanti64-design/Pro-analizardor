@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Deportivo Pro - Análisis Avanzado</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚽ Simulador Deportivo Pro</h1>
+            <p>Motor de Predicción Matemática Conjunta (Poisson, xG, Córners y Tarjetas)</p>
+        </header>
+
+        <div class="card-grid">
+            <!-- EQUIPO LOCAL -->
+            <div class="team-card home-card">
+                <h2>🏠 Equipo Local</h2>
+                <div class="form-group">
+                    <label>Nombre del Equipo</label>
+                    <input type="text" id="home-name" value="Fenerbahçe">
+                </div>
+                <div class="form-group">
+                    <label>xG (Goles Esperados a Favor)</label>
+                    <input type="number" step="0.01" id="home-xg" value="1.78">
+                </div>
+                <div class="form-group">
+                    <label>xGA (Goles Esperados en Contra)</label>
+                    <input type="number" step="0.01" id="home-xga" value="1.22">
+                </div>
+                <div class="form-group">
+                    <label>Goles Marcados Promedio</label>
+                    <input type="number" step="0.1" id="home-scored" value="1.6">
+                </div>
+                <div class="form-group">
+                    <label>Goles Concedidos Promedio</label>
+                    <input type="number" step="0.1" id="home-conceded" value="0.9">
+                </div>
+                <div class="form-group">
+                    <label>Remates Totales / Partido</label>
+                    <input type="number" step="0.1" id="home-shots" value="15.5">
+                </div>
+                <div class="form-group">
+                    <label>Tiros a Puerta / Partido</label>
+                    <input type="number" step="0.1" id="home-sot" value="6.5">
+                </div>
+                <div class="form-group">
+                    <label>Córners Ganados / Partido</label>
+                    <input type="number" step="0.1" id="home-corners-won" value="6.3">
+                </div>
+                <div class="form-group">
+                    <label>Córners Perdidos (Concedidos)</label>
+                    <input type="number" step="0.1" id="home-corners-lost" value="3.7">
+                </div>
+                <div class="form-group">
+                    <label>Posesión Media (%)</label>
+                    <input type="number" step="0.1" id="home-poss" value="56">
+                </div>
+                <div class="form-group">
+                    <label>Faltas Cometidas / Partido</label>
+                    <input type="number" step="0.1" id="home-fouls" value="13.7">
+                </div>
+            </div>
+
+            <!-- EQUIPO VISITANTE -->
+            <div class="team-card away-card">
+                <h2>✈️ Equipo Visitante</h2>
+                <div class="form-group">
+                    <label>Nombre del Equipo</label>
+                    <input type="text" id="away-name" value="Roma">
+                </div>
+                <div class="form-group">
+                    <label>xG (Goles Esperados a Favor)</label>
+                    <input type="number" step="0.01" id="away-xg" value="1.88">
+                </div>
+                <div class="form-group">
+                    <label>xGA (Goles Esperados en Contra)</label>
+                    <input type="number" step="0.01" id="away-xga" value="1.48">
+                </div>
+                <div class="form-group">
+                    <label>Goles Marcados Promedio</label>
+                    <input type="number" step="0.1" id="away-scored" value="2.4">
+                </div>
+                <div class="form-group">
+                    <label>Goles Concedidos Promedio</label>
+                    <input type="number" step="0.1" id="away-conceded" value="1.4">
+                </div>
+                <div class="form-group">
+                    <label>Remates Totales / Partido</label>
+                    <input type="number" step="0.1" id="away-shots" value="15.5">
+                </div>
+                <div class="form-group">
+                    <label>Tiros a Puerta / Partido</label>
+                    <input type="number" step="0.1" id="away-sot" value="5.8">
+                </div>
+                <div class="form-group">
+                    <label>Córners Ganados / Partido</label>
+                    <input type="number" step="0.1" id="away-corners-won" value="5.3">
+                </div>
+                <div class="form-group">
+                    <label>Córners Perdidos (Concedidos)</label>
+                    <input type="number" step="0.1" id="away-corners-lost" value="3.9">
+                </div>
+                <div class="form-group">
+                    <label>Posesión Media (%)</label>
+                    <input type="number" step="0.1" id="away-poss" value="60">
+                </div>
+                <div class="form-group">
+                    <label>Faltas Cometidas / Partido</label>
+                    <input type="number" step="0.1" id="away-fouls" value="11.9">
+                </div>
+            </div>
+        </div>
+
+        <div class="action-container">
+            <button onclick="runSimulation()" class="sim-btn">🚀 Ejecutar Simulación Conjunta Avanzada</button>
+        </div>
+
+        <!-- RESULTADOS -->
+        <div id="results" class="results-container hidden">
+            <h2>📊 Resultado de la Simulación del Partido</h2>
+            <div class="score-board">
+                <span id="res-home-name">Local</span>
+                <span id="res-score" class="score-number">0 - 0</span>
+                <span id="res-away-name">Visitante</span>
+            </div>
+
+            <div class="stats-table-wrapper">
+                <table class="stats-table">
+                    <thead>
+                        <tr>
+                            <th>Métrica Conjunta</th>
+                            <th id="th-home">Local</th>
+                            <th id="th-away">Visitante</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stats-body">
+                        <!-- Inyectado por JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+  </html>
+  
